@@ -1,16 +1,20 @@
 package Logic;
 
+import Windows.LoginWindows;
 import Windows.RegisterWindoes;
 
 import java.awt.event.*;
 
 public class Register {
     private RegisterWindoes registerWindoes;
+    private LoginWindows loginWindows;
 
-    public Register(RegisterWindoes registerWindoes) {
+    public Register(RegisterWindoes registerWindoes, LoginWindows loginWindows) {
         this.registerWindoes = registerWindoes;
+        this.loginWindows = loginWindows;
         registerWindoes.getRegister_button_visible_password().addMouseListener(visible_password_button_clicked);
         registerWindoes.getRegister_dialog().addWindowListener(dialog_button);
+
     }
 
     private WindowListener dialog_button = new WindowAdapter() {
@@ -19,14 +23,6 @@ public class Register {
             registerWindoes.getRegister_dialog().setVisible(false);
         }
     };
-     void clean_register() {
-        registerWindoes.getRegister_textField_user_name().setText(" ");
-        registerWindoes.getRegister_textField_passwords_input().setText(" ");
-        registerWindoes.getRegister_textField_passwords_confirm().setText(" ");
-        registerWindoes.getRegister_textField_user_name().setText("");
-        registerWindoes.getRegister_textField_passwords_input().setText("");
-        registerWindoes.getRegister_textField_passwords_confirm().setText("");
-    }
 
     private MouseListener visible_password_button_clicked = new MouseAdapter() {
         @Override

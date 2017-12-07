@@ -105,11 +105,6 @@ public class LoginWindows extends MyFrame{
         this.add(login_button_login);
         this.add(login_button_register);
         //this.add(login_button_visible_password);
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+
     }
 }

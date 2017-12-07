@@ -14,9 +14,9 @@ public class Test {
     private TestWindows testWindows;
     private String loged_in_user_name;
 
-    public Test(TestWindows testWindows) {
+    public Test(TestWindows testWindows, String loged_in_user_name) {
         this.testWindows = testWindows;
-        this.loged_in_user_name = Data.loged_in_user_name;
+        this.loged_in_user_name = loged_in_user_name;
         testWindows.getTest_button_submit().addActionListener(submint_button);
         testWindows.getTest_button_show_words_difficulty().addActionListener(show_word_difficulty);
         testWindows.getTest_button_put_grade().addActionListener(put_grade);
@@ -46,11 +46,11 @@ public class Test {
     private ActionListener put_grade = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            Iterator<String> rit = Data.right.keySet().iterator();
+            Iterator<String> it = Data.right.keySet().iterator();
             String right;
             for (int i = 0; i < Data.word.size(); i++) {
-                while (rit.hasNext()) {
-                    right = rit.next();
+                while (it.hasNext()) {
+                    right = it.next();
                     Data.write_grade(loged_in_user_name, right, Data.right.get(right), Data.wrong.get(right));
                 }
             }
@@ -66,7 +66,7 @@ public class Test {
                     ResultSet set = Data.read_gread(loged_in_user_name);
                     while (set.next()) {
                         testWindows.getTest_textArea_question().append(set.getString("word") + "......." +
-                                show_start_number(Float.parseFloat(set.getString("error"))) + "\r\n");
+                                show_start_number(Float.parseFloat(set.getString("r"))) + "\r\n");
                     }
                 } catch (SQLException SQL) {
                     System.out.println("test_button_show_words_difficulty");

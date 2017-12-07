@@ -57,6 +57,7 @@ public class TestWindows extends MyFrame {
         this.add(test_button_show_words_difficulty);
         this.add(test_button_put_grade);
         this.add(test_button_quit_test_module);
+
     }
 
     public TextArea getTest_textArea_question() {

@@ -2,83 +2,27 @@ package Logic;
 
 import Windows.*;
 
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class Run {
-
-    private static LoginWindows loginWindows;
-    private static RegisterWindoes registerWindoes;
-    private static ChooseWindows chooseWindows;
-    private static SearchWindows searchWindows;
+    private String loged_in_user_name = null;
+    private LoginWindows loginWindows;
+    private RegisterWindoes registerWindoes;
+    private ChooseWindows chooseWindows;
+    private SearchWindows searchWindows;
     private static TestWindows testWindows;
 
-    private static Login login;
-    private static Register register;
-    private static Choose choose;
-    private static Search search;
-    private static Test test;
+    private Login login;
+    private Register register;
+    private Choose choose;
+    private Search search;
+    private Test test;
 
-    //region rigister
-    private static ActionListener quit_register=new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            loginWindows.setVisible(true);
-            register.clean_register();
-            registerWindoes.setVisible(false);
-        }
-    };
-
-
-    private static ActionListener rigister_botton_clicked = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (check_register()) {
-                registerWindoes.getRegister_label_dialog().setText("×¢²á³É¹¦");
-                registerWindoes.getRegister_dialog().setVisible(true);
-
-                Data.write_userInfo(registerWindoes.getRegister_textField_user_name().getText(), registerWindoes.getRegister_textField_passwords_input().getText());
-                Data.userInfo.put(registerWindoes.getRegister_textField_user_name().getText(), registerWindoes.getRegister_textField_passwords_input().getText());
-                loginWindows.setVisible(true);
-                clean_register();
-                System.out.println("×¢²á³É¹¦");
-                registerWindoes.getRegister_dialog().setVisible(false);
-                registerWindoes.setVisible(false);
-            } else {
-                registerWindoes.getRegister_dialog().setVisible(true);
-                System.out.println("×¢²áÊ§°Ü");
-            }
-        }
-    };
-
-    static private boolean check_register() {
-        return if_register_success(registerWindoes.getRegister_textField_user_name().getText()) == false &&
-                registerWindoes.getRegister_textField_passwords_input().getText().compareTo(registerWindoes.getRegister_textField_passwords_confirm().getText())==0 &&
-                registerWindoes.getRegister_textField_user_name().getText().compareTo("") != 0 &&
-                limit_password(registerWindoes.getRegister_textField_passwords_input().getText()) == true;
-    }
-
-    static private boolean limit_password(String PW) {
-        String regex = "(?!^\\\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{7,11}";
-        return PW.matches(regex);
-    }
-
-    static private void clean_register() {
-        registerWindoes.getRegister_textField_user_name().setText(" ");
-        registerWindoes.getRegister_textField_passwords_input().setText(" ");
-        registerWindoes.getRegister_textField_passwords_confirm().setText(" ");
-        registerWindoes.getRegister_textField_user_name().setText("");
-        registerWindoes.getRegister_textField_passwords_input().setText("");
-        registerWindoes.getRegister_textField_passwords_confirm().setText("");
-    }
-
-    static private boolean if_register_success(String user_name) {
-        return Data.userInfo.containsKey(user_name);
-    }
-    //endregion
 
     //region login
-    private static ActionListener login_button_clicked = new ActionListener() {
+    private ActionListener login_button_clicked = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             if (check(loginWindows.getLogin_textField_user_name().getText(), loginWindows.getLogin_textField_password().getText()) == false) {
@@ -86,37 +30,40 @@ public class Run {
                 record();
                 return;
             }
-            Data.loged_in_user_name = loginWindows.getLogin_textField_user_name().getText();
+            loged_in_user_name = new String(loginWindows.getLogin_textField_user_name().getText());
+            System.out.println(loged_in_user_name);
             loginWindows.getLogin_label_dialog().setText("µÇÂ¼³É¹¦");
             chooseWindows.setVisible(true);
             loginWindows.setVisible(false);
+            testWindows = new TestWindows("ÑîÁ¼²©");
+            test = new Test(testWindows, loged_in_user_name);
+            testWindows.getTest_button_quit_test_module().addActionListener(quit_test_button);
         }
     };
 
-    private static int login_count = 0;
+    private int login_count = 0;
 
-    static private void record() {
+    private void record() {
         login_count++;
         if (login_count == 3) {
             login_count = 0;
             try {
                 Thread.sleep(2000);
-            } catch (Exception ss)
-            { }
+            } catch (Exception ss) {
+            }
             System.exit(0);
         }
     }
 
-    static private boolean check(String user_name, String user_password) {
-        if(Data.userInfo.containsKey(user_name)==true)
-        {
+    private boolean check(String user_name, String user_password) {
+        if (Data.userInfo.containsKey(user_name) == true) {
             if (user_password.compareTo(Data.userInfo.get(user_name)) == 0)
                 return true;
         }
         return false;
     }
 
-    private static ActionListener to_registerWindoes = new ActionListener() {
+    private ActionListener to_registerWindoes = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             registerWindoes.setVisible(true);
@@ -126,7 +73,7 @@ public class Run {
     //endregion
 
     //region choose
-    private static ActionListener quit_test_button = new ActionListener() {
+    private ActionListener quit_test_button = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             chooseWindows.setVisible(true);
@@ -135,7 +82,7 @@ public class Run {
         }
     };
 
-    private static ActionListener to_search_module = new ActionListener() {
+    private ActionListener to_search_module = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             searchWindows.setVisible(true);
@@ -143,7 +90,7 @@ public class Run {
         }
     };
 
-    private static ActionListener quit_search_button = new ActionListener() {
+    private ActionListener quit_search_button = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             chooseWindows.setVisible(true);
@@ -151,7 +98,7 @@ public class Run {
 
         }
     };
-    private static ActionListener to_test_module = new ActionListener() {
+    private ActionListener to_test_module = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             testWindows.setVisible(true);
@@ -162,6 +109,10 @@ public class Run {
     //endregion
 
     public static void main(String[] args) {
+        new Run();
+    }
+
+    Run() {
         try {
             Data.read_word();
         } catch (SQLException s) {
@@ -179,23 +130,14 @@ public class Run {
         loginWindows.getLogin_button_register().addActionListener(to_registerWindoes);
 
         registerWindoes = new RegisterWindoes("ÑîÁ¼²©");
-        register = new Register(registerWindoes);
-        registerWindoes.getRegister_button_register().addActionListener(rigister_botton_clicked);
-        registerWindoes.getRegister_button_quit_register().addActionListener(quit_register);
-
-
-        chooseWindows = new ChooseWindows("ÑîÁ¼²©");
-        choose = new Choose(chooseWindows);
-        chooseWindows.getChoose_button_search_module().addActionListener(to_search_module);
-        chooseWindows.getChoose_button_test_module().addActionListener(to_test_module);
+        register = new Register(registerWindoes,loginWindows);
 
         searchWindows = new SearchWindows("ÑîÁ¼²©");
         search = new Search(searchWindows);
         searchWindows.getSearch_button_quit_search_module().addActionListener(quit_search_button);
 
-        testWindows = new TestWindows("ÑîÁ¼²©");
-        test = new Test(testWindows);
-        testWindows.getTest_button_quit_test_module().addActionListener(quit_test_button);
-
+        chooseWindows = new ChooseWindows("ÑîÁ¼²©");
+        chooseWindows.getChoose_button_search_module().addActionListener(to_search_module);
+        chooseWindows.getChoose_button_test_module().addActionListener(to_test_module);
     }
 }

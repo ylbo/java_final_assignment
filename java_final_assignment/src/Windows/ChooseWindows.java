@@ -1,6 +1,8 @@
 package Windows;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ChooseWindows extends MyFrame {
     private Button choose_button_search_module;

@@ -17,7 +17,6 @@ public class Data {
     //记录错误次数
     public static Map<String, Integer> wrong = new HashMap<String, Integer>();
 
-    public static String loged_in_user_name=null;
 
     //读取单词和词义
     public static void read_word() throws SQLException {
@@ -73,16 +72,16 @@ public class Data {
             conn = SqlHelper.getCoonection();
             System.out.println("---------------连接数据库成功");
 
-            PreparedStatement pstmt = conn.prepareStatement("insert into ylbGrade(userName,word,[right],wrong,error) values(?,?,?,?,?)");
+            PreparedStatement pstmt = conn.prepareStatement("insert into ylbGrade(userName,word,[right],wrong) values(?,?,?,?)");
             pstmt.setString(1, name);
             pstmt.setString(2, word);
             pstmt.setInt(3, right);
             pstmt.setInt(4, wrong);
-            pstmt.setFloat(5, (float) (wrong * 1.0 / (right + wrong)));
             pstmt.executeUpdate();
             System.out.println("更新成功");
         } catch (Exception e) {
             e.printStackTrace();
+            change_grade(name,word,right,wrong);
             System.out.println("----------------更新失败");
         } finally {
             try {
@@ -101,13 +100,14 @@ public class Data {
             conn = SqlHelper.getCoonection();
             System.out.println("---------------连接数据库成功");
 
-            PreparedStatement pstmt = conn.prepareStatement("update ylbGrade set [right] =?,wrong=?,error=? where userName=? and word=?");
+            PreparedStatement pstmt = conn.prepareStatement("update ylbGrade set [right] = [right] + ?,wrong = wrong + ? where userName = ? and word = ?");
             pstmt.setInt(1, right);
             pstmt.setInt(2, wrong);
-            pstmt.setFloat(3, (float) (wrong * 1.0 / (right + wrong)));
-            pstmt.setString(4, name);
-            pstmt.setString(5, word);
+            pstmt.setString(3, name);
+            pstmt.setString(4, word);
             pstmt.executeUpdate();
+            // pstmt=conn.prepareStatement("update ylbGrade set  where userName = ? and word = ?");
+
             System.out.println("更新成绩成功");
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,7 +124,14 @@ public class Data {
 
     //读取成绩
     public static ResultSet read_gread(String name) {
-        String SQL = "select word,error from ylbGrade where userName = " + name;
+        String SQL = "select g.word,1.0*sum([right])/( sum([right])+sum(wrong)) r from ylbGrade  g join ylbWord w on g.word=w.word group by g.word";
+        return SqlHelper.executeQuery(SQL);
+    }
+
+    // 查询单个单词意思
+    public static ResultSet search_word_meaning()
+    {
+        String SQL = "select * from ylbWord";
         return SqlHelper.executeQuery(SQL);
     }
 }
