@@ -43,7 +43,7 @@ public class LoginWindows extends MyFrame {
         button_visible_password = new Button("œ‘ æ√‹¬Î");
         button_visible_password.setBounds(320, 130, 60, 20);
 
-        dialog = new Dialog(this, "—Ó¡º≤©");
+        dialog = new Dialog(this, "—Ó¡º≤©", Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setBounds(729, 360, 240, 148);
         dialog.setLayout(null);
 

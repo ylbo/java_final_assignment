@@ -3,16 +3,15 @@ package Logic;
 import java.sql.*;
 
 public class SqlHelper {
-    private static String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    private static String dbURL = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ylb";
-    private static String userName = "sa";
-    private static String userPwd = "123456";
+    private static final String driverName = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String dbURL = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ylb";
+    private static final String userName = "sa";
+    private static final String userPwd = "123456";
 
     public static Connection getCoonection() {
         try {
             Class.forName(driverName);
-            Connection conn = DriverManager.getConnection(dbURL, userName, userPwd);
-            return conn;
+            return DriverManager.getConnection(dbURL, userName, userPwd);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.print("----------------连接失败");
@@ -25,8 +24,7 @@ public class SqlHelper {
             Connection conn = getCoonection();
             System.out.println("---------------连接数据库成功");
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(SQL);
-            return rs;
+            return stmt.executeQuery(SQL);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.print("----------------查询失败");
@@ -42,9 +40,10 @@ public class SqlHelper {
 
     //写入成绩
     public static void write_grade(String name, String word, int right, int wrong) {
+        PreparedStatement pstmt = null;
         try {
             String SQL = "insert into ylbGrade(userName,word,[right],wrong) values(?,?,?,?)";
-            PreparedStatement pstmt = getCoonection().prepareStatement(SQL);
+            pstmt = getCoonection().prepareStatement(SQL);
             pstmt.setString(1, name);
             pstmt.setString(2, word);
             pstmt.setInt(3, right);
@@ -55,6 +54,13 @@ public class SqlHelper {
             e.printStackTrace();
             change_grade(name, word, right, wrong);
             System.out.println("----------------插入成绩失败");
+        } finally {
+            try {
+                if (pstmt != null)
+                    pstmt.close();
+            } catch (SQLException ss) {
+                ss.printStackTrace();
+            }
         }
     }
 
@@ -99,13 +105,12 @@ public class SqlHelper {
             pstmt.setString(2, passWord);
             ResultSet rs = pstmt.executeQuery();
             System.out.println("----------------读取帐号密码成功");
-            if (rs.next()) return true;
-            return false;
+            return !rs.next();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("----------------读取帐号密码失败");
         }
-        return false;
+        return true;
     }
 
     public static boolean check_Info(String user) {
@@ -114,8 +119,7 @@ public class SqlHelper {
             PreparedStatement pstmt = getCoonection().prepareStatement(SQL);
             pstmt.setString(1, user);
             ResultSet rs = pstmt.executeQuery();
-            if (rs.next()) return true;
-            return false;
+            return rs.next();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("----------------更新失败");
@@ -128,8 +132,7 @@ public class SqlHelper {
         try {
             String SQL = "select * from " + table_name;
             PreparedStatement pstmt = SqlHelper.getCoonection().prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            ResultSet rs = pstmt.executeQuery();
-            return rs;
+            return pstmt.executeQuery();
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("----------------更新失败");

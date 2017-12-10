@@ -13,6 +13,7 @@ public class Register {
         @Override
         public void windowClosing(WindowEvent e) {
             registerWindoes.getDialog().setVisible(false);
+            registerWindoes.getLabel_dialog().setText("×¢²áÊ§°Ü");
         }
     };
     private MouseListener visible_password_button_clicked = new MouseAdapter() {
@@ -66,15 +67,10 @@ public class Register {
     }
 
     private boolean check_register() {
-        return SqlHelper.check_Info(registerWindoes.getTextField_user_name().getText()) == false &&
+        return !SqlHelper.check_Info(registerWindoes.getTextField_user_name().getText()) &&
                 registerWindoes.getTextField_passwords_input().getText().compareTo(registerWindoes.getTextField_passwords_confirm().getText()) == 0 &&
                 registerWindoes.getTextField_user_name().getText().compareTo("") != 0 &&
-                limit_password(registerWindoes.getTextField_passwords_input().getText()) == true;
-    }
-
-    private boolean limit_password(String PW) {
-        String regex = "(?!^\\\\d+$)(?!^[a-zA-Z]+$)(?!^[_#@]+$).{7,11}";
-        return PW.matches(regex);
+                limit_password(registerWindoes.getTextField_passwords_input().getText());
     }
 
     private void clean_register() {
@@ -84,6 +80,11 @@ public class Register {
         registerWindoes.getTextField_user_name().setText("");
         registerWindoes.getTextField_passwords_input().setText("");
         registerWindoes.getTextField_passwords_confirm().setText("");
+    }
+
+    private boolean limit_password(String PW) {
+        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{6,16}$";
+        return PW.matches(regex);
     }
 }
 

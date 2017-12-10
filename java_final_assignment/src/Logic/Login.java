@@ -26,24 +26,24 @@ public class Login {
         @Override
         public void windowClosing(WindowEvent e) {
             loginWindows.getDialog().setVisible(false);
+            loginWindows.getLabel_dialog().setText("µÇÂ¼Ê§°Ü");
         }
     };
     private int login_count = 0;
     private ActionListener login_button_clicked = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (SqlHelper.check_userInfo(loginWindows.getTextField_user_name().getText(), loginWindows.getTextField_password().getText()) == false) {
+            if (SqlHelper.check_userInfo(loginWindows.getTextField_user_name().getText(), loginWindows.getTextField_password().getText())) {
                 loginWindows.getDialog().setVisible(true);
                 record();
                 return;
             }
-            loginWindows.getButton_login().removeActionListener(login_button_clicked);
+            loginWindows.getLabel_dialog().setText("µÇÂ¼³É¹¦");
+            loginWindows.getDialog().setVisible(true);
             loged_in_user_name.append(loginWindows.getTextField_user_name().getText());
             System.out.println(loged_in_user_name);
-            loginWindows.getLabel_dialog().setText("µÇÂ¼³É¹¦");
             chooseWindows.setVisible(true);
             loginWindows.setVisible(false);
-
         }
     };
     private ActionListener to_registerWindoes = new ActionListener() {
@@ -69,12 +69,7 @@ public class Login {
         login_count++;
         if (login_count == 3) {
             login_count = 0;
-            try {
-                Thread.sleep(2000);
-            } catch (Exception ss) {
-            }
             System.exit(0);
         }
     }
-
 }

@@ -23,7 +23,8 @@ public class Search {
                             meaning = re.getString("meaning");
                         }
                     }
-                } catch (SQLException ss) {
+                    re.close();
+                } catch (SQLException ignored) {
 
                 }
             }

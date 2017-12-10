@@ -52,64 +52,76 @@ public class Test {
         //出错就显示6个零
         return "000000";
     }
-    private ActionListener submint_button = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (testWindows.getTextField_answer().getText().compareTo(right_option) == 0) {
-                System.out.println(right_option);
-                testWindows.getResult_label_dialog().setText("回答正确");
-                SqlHelper.write_grade(new String(loged_in_user_name), question.get(question.size() - 1).get(Integer.parseInt(right_option)), 1, 0);
-                testWindows.getResult_dialog().setVisible(true);
-                question.remove(question.size() - 1);
-            } else {
-                testWindows.getResult_label_dialog().setText("回答错误");
-                SqlHelper.write_grade(new String(loged_in_user_name), question.get(question.size() - 1).get(Integer.parseInt(right_option)), 0, 1);
-                testWindows.getResult_dialog().setVisible(true);
-                question.add(0, question.get(question.size() - 1));
-                question.remove(question.size() - 1);
-            }
-            test();
-        }
-    };
 
     public Test(TestWindows testWindows, StringBuilder loged_in_user_name) {
         this.testWindows = testWindows;
         this.loged_in_user_name = loged_in_user_name;
         System.out.println(this.loged_in_user_name);
-        testWindows.getButton_submit().addActionListener(submint_button);
+        for (int i = 0; i < testWindows.getOption().length; i++) {
+            int finalI = i;
+            testWindows.getOption()[i].addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    judge_answer(Integer.toString(finalI + 1));
+                    test();
+                }
+            });
+        }
         testWindows.getButton_show_words_difficulty().addActionListener(show_word_difficulty);
-
-        //testWindows.getButton_put_grade().addActionListener(put_grade);
         testWindows.getResult_dialog().addWindowListener(result_dialog);
     }
 
-    public void test() {
-        testWindows.getTextField_answer().setText("");
-        testWindows.getTextArea_question().setText("");
-        if (question.size() == 0) {
-            finish_test();
-            return;
+    private void judge_answer(String user_option) {
+        if (user_option.compareTo(right_option) == 0) {
+            testWindows.getResult_label_dialog().setText("");
+            testWindows.getLabel_dialog_right_option_1().setText("回答正确");
+            testWindows.getLabel_dialog_right_option_2().setText("");
+            SqlHelper.write_grade(new String(loged_in_user_name), question.get(question.size() - 1).get(0), 1, 0);
+            testWindows.getResult_dialog().setVisible(true);
+            question.remove(question.size() - 1);
+        } else {
+            testWindows.getResult_label_dialog().setText("回答错误,你的选择是" + user_option);
+            testWindows.getLabel_dialog_right_option_1().setText("正确答案是");
+            testWindows.getLabel_dialog_right_option_2().setText(right_option + ":  " + question.get(question.size() - 1).get(Integer.parseInt(right_option)));
+            SqlHelper.write_grade(new String(loged_in_user_name), question.get(question.size() - 1).get(0), 0, 1);
+            testWindows.getResult_dialog().setVisible(true);
+            question.add(0, question.get(question.size() - 1));
+            question.remove(question.size() - 1);
         }
-        ss(question.size() - 1, question);
     }
 
-    private void ss(int index, ArrayList<ArrayList<String>> t) {
+    public void test() {
+        testWindows.getTextArea_question().setText("");
+        try {
+            append_question_and_options(question.size() - 1, question);
+        } catch (IndexOutOfBoundsException e) {
+            e.printStackTrace();
+            finish_test();
+        }
+    }
+
+    private void append_question_and_options(int index, ArrayList<ArrayList<String>> t) {
         testWindows.getTextArea_question().setText(t.get(index).get(0) + "\r\n");
-        testWindows.getTextArea_question().append("1: " + t.get(index).get(1) + "\r\n");
-        testWindows.getTextArea_question().append("2: " + t.get(index).get(2));
-        right_option = t.get(index).get(3);
+        for (int i = 0; i < 4; i++) {
+            testWindows.getTextArea_question().append((i + 1) + ": " + t.get(index).get(i + 1) + "\r\n");
+        }
+        right_option = t.get(index).get(5);
     }
 
     private void finish_test() {
         testWindows.getTextArea_question().setText("考试结束");
-        testWindows.getButton_submit().setVisible(false);
-        testWindows.getTextField_answer().setVisible(false);
+        this.question.clear();
+        testWindows.getButton_show_words_difficulty().setVisible(true);
+        for (int i = 0; i < testWindows.getOption().length; i++) {
+            testWindows.getOption()[i].setVisible(false);
+        }
         testWindows.invalidate();
     }
 
     public void reset() {
         testWindows.getTextArea_question().setText("");
-        testWindows.getTextField_answer().setVisible(true);
-        testWindows.getButton_submit().setVisible(true);
+        for (int i = 0; i < testWindows.getOption().length; i++) {
+            testWindows.getOption()[i].setVisible(true);
+        }
     }
 }
