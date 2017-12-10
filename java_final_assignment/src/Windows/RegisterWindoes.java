@@ -14,6 +14,7 @@ public class RegisterWindoes extends MyFrame {
     private Button button_visible_password;
     private Dialog dialog;
     private Label label_dialog;
+    private Label label_remind;
 
     public RegisterWindoes()
     {
@@ -29,6 +30,8 @@ public class RegisterWindoes extends MyFrame {
         label_passwords_input.setBounds(80, 110, 50, 20);
         label_passwords_confirm = new Label("确认密码");
         label_passwords_confirm.setBounds(80, 150, 50, 20);
+        label_remind = new Label("密码必须包含大写小写字母和数字，长度8到12位");
+        label_remind.setBounds(110, 130, 270, 20);
 
         textField_user_name = new TextField();
         textField_user_name.setBounds(150, 70, 160, 20);
@@ -46,7 +49,7 @@ public class RegisterWindoes extends MyFrame {
         button_quit_register = new Button("退出注册");
         button_quit_register.setBounds(240, 190, 90, 30);
 
-        dialog = new Dialog(this, "杨良博");
+        dialog = new Dialog(this, "杨良博", Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setLayout(null);
         dialog.setBounds(729, 360, 240, 148);
 
@@ -55,6 +58,7 @@ public class RegisterWindoes extends MyFrame {
 
         dialog.add(label_dialog);
 
+        this.add(label_remind);
         this.add(label_user_name);
         this.add(label_passwords_input);
         this.add(label_passwords_confirm);

@@ -19,7 +19,7 @@ public class MyFrame extends Frame {
 
     public MyFrame() {
         super("杨良博");
-        dialog_exit = new Dialog(this, "确认退出");
+        dialog_exit = new Dialog(this, "确认退出", Dialog.ModalityType.APPLICATION_MODAL);
         dialog_exit.setBounds(729, 360, 240, 148);
         label_exit = new Label("你确定要退出么");
         button_yes = new Button("是");
@@ -42,6 +42,13 @@ public class MyFrame extends Frame {
                 dialog_exit.setVisible(false);
             }
         });
+        dialog_exit.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                dialog_exit.setVisible(false);
+            }
+        });
+
         this.setLayout(null);
         this.setResizable(false);
         this.setBounds(1920 / 2 - 450 / 2 - 100, 1080 / 2 - 290 / 2 - 100, 450, 275);

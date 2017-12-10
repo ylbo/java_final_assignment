@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ChooseDic {
     private ChooseDicWindows chooseDicWindows;
@@ -16,25 +17,26 @@ public class ChooseDic {
     private ActionListener get4_to_test = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            try {
-                import_get4_word();
-            } catch (Exception ss) {
-                ss.printStackTrace();
-            }
-            testWindows.setVisible(true);
-            chooseDicWindows.setVisible(false);
-            test.test();
+            to_test("ylbQuestionBankGet4");
         }
     };
     private ActionListener get6_to_test = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            import_get6_word();
-            testWindows.setVisible(true);
-            chooseDicWindows.setVisible(false);
-            test.test();
+            to_test("ylbQuestionBankGet6");
         }
     };
+
+    private void to_test(String table_name) {
+        try {
+            import_question_bank(table_name);
+        } catch (SQLException ss) {
+            ss.printStackTrace();
+        }
+        testWindows.setVisible(true);
+        chooseDicWindows.setVisible(false);
+        test.test();
+    }
 
     public ChooseDic(ChooseDicWindows chooseDicWindows, TestWindows testWindows, Test test) {
         this.chooseDicWindows = chooseDicWindows;
@@ -44,19 +46,18 @@ public class ChooseDic {
         this.chooseDicWindows.getGet6().addActionListener(get6_to_test);
     }
 
-    private void import_get4_word() throws SQLException {
-        ResultSet rs = SqlHelper.read_questin("questionBank");
+    private void import_question_bank(String table_name) throws SQLException {
+        ResultSet rs = SqlHelper.read_questin(table_name);
         while (rs.next()) {
             ArrayList<String> arr = new ArrayList<String>();
             arr.add(rs.getString("question"));
-            arr.add(rs.getString("option1"));
-            arr.add(rs.getString("option2"));
+            for (int i = 0; i < 4; i++) {
+                arr.add(rs.getString("option" + (i + 1)));
+            }
             arr.add(rs.getString("rightOption"));
             test.question.add(arr);
         }
-    }
-
-    private void import_get6_word() {
-
+        Collections.reverse(test.question);
+        rs.close();
     }
 }

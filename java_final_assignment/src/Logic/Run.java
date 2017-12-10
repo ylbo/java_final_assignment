@@ -15,12 +15,13 @@ public class Run {
     private ChooseDicWindows chooseDicWindows;
     private Test test;
 
-    //region choose
     private ActionListener quit_test_button = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             chooseWindows.setVisible(true);
-            chooseDicWindows.setVisible(false);
+            testWindows.setVisible(false);
+            testWindows.getButton_show_words_difficulty().setVisible(false);
+            test.question.clear();
             test.reset();
         }
     };
@@ -41,29 +42,25 @@ public class Run {
         }
     };
 
-    Run() {
+    private Run() {
         loginWindows = new LoginWindows();
         registerWindoes = new RegisterWindoes();
-        new Register(registerWindoes, loginWindows);
-
         chooseWindows = new ChooseWindows();
+        searchWindows = new SearchWindows();
+        testWindows = new TestWindows();
+        chooseDicWindows = new ChooseDicWindows();
+
         chooseWindows.getButton_search_module().addActionListener(to_search_module);
         chooseWindows.getButton_test_module().addActionListener(to_test_module);
-
-        searchWindows = new SearchWindows();
-        new Search(searchWindows, chooseWindows);
-
-        testWindows = new TestWindows();
-        test = new Test(testWindows, loged_in_user_name);
         testWindows.getButton_quit_module().addActionListener(quit_test_button);
 
-        chooseDicWindows = new ChooseDicWindows();
+        new Register(registerWindoes, loginWindows);
+        new Search(searchWindows, chooseWindows);
+        test = new Test(testWindows, loged_in_user_name);
         new ChooseDic(chooseDicWindows, testWindows, test);
-
         new Login(loginWindows, registerWindoes, chooseWindows, loged_in_user_name);
     }
 
-    //endregion
     public static void main(String[] args) {
         new Run();
     }
