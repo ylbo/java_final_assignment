@@ -36,10 +36,10 @@ public class RegisterWindoes extends MyFrame {
         textField_user_name = new TextField();
         textField_user_name.setBounds(150, 70, 160, 20);
         textField_passwords_input = new TextField();
-        //textField_passwords_input.setEchoChar('*');
+        textField_passwords_input.setEchoChar('*');
         textField_passwords_input.setBounds(150, 110, 160, 20);
         textField_passwords_confirm = new TextField();
-        //textField_passwords_confirm.setEchoChar('*');
+        textField_passwords_confirm.setEchoChar('*');
         textField_passwords_confirm.setBounds(150, 150, 160, 20);
 
         button_visible_password = new Button("œ‘ æ√‹¬Î");
@@ -67,7 +67,7 @@ public class RegisterWindoes extends MyFrame {
         this.add(textField_passwords_confirm);
         this.add(button_register);
         this.add(button_quit_register);
-        //this.add(button_visible_password);
+        this.add(button_visible_password);
     }
 
     public TextField getTextField_user_name() {
