@@ -1,4 +1,5 @@
 package Windows;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class MyFrame extends Frame {
 
@@ -64,7 +65,8 @@ public class MyFrame extends Frame {
         super.paint(g);
         BufferedImage image;
         try {
-            image = ImageIO.read(new File("C:\\Users\\VULCAN\\Desktop\\work.jpg"));//注意地址的形式，笔者是在Mac上写的
+            URL is = this.getClass().getResource("/work.jpg");
+            image = ImageIO.read(is);
             g.drawImage(image, 0, 0, null);
 
         } catch (IOException e) {

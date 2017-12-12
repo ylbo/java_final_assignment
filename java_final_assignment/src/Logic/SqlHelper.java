@@ -141,7 +141,7 @@ public class SqlHelper {
     }
 
     public static ResultSet read_gread() {
-        String SQL = "select g.word,1.0*sum([right])/( sum([right])+sum(wrong)) r from ylbGrade  g join ylbWord w on g.word=w.word group by g.word";
+        String SQL = "select g.word,1.0*sum(wrong)/( sum([right])+sum(wrong)) r from ylbGrade  g join ylbWord w on g.word=w.word group by g.word";
         return SqlHelper.executeQuery(SQL);
     }
 }
