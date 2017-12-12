@@ -32,7 +32,7 @@ public class LoginWindows extends MyFrame {
 
         textField_password = new TextField();
         textField_password.setBounds(150, 130, 160, 20);
-        //textField_password.setEchoChar('*');
+        textField_password.setEchoChar('*');
 
         button_login = new Button("µÇÂ¼");
         button_login.setBounds(110, 190, 90, 30);
@@ -58,8 +58,7 @@ public class LoginWindows extends MyFrame {
         this.add(textField_password);
         this.add(button_login);
         this.add(button_register);
-        //this.add(button_visible_password);
-
+        this.add(button_visible_password);
     }
 
     public TextField getTextField_user_name() {
