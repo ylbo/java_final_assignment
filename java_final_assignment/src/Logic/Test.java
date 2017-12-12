@@ -7,9 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-
 public class Test {
-
     private TestWindows testWindows;
     public ArrayList<ArrayList<String>> question = new ArrayList<ArrayList<String>>();
     private StringBuilder loged_in_user_name;
@@ -39,15 +37,15 @@ public class Test {
     private String right_option;
 
     private String show_start_number(float f) {
-        if (f >= Float.parseFloat("0") && f <= Float.parseFloat("0.2"))
+        if (f >= 0f && f < 0.2f)
             return "*";
-        if (f > Float.parseFloat("0.2") && f < Float.parseFloat("0.4"))
+        if (f > 0.2f && f < 0.4f)
             return "**";
-        if (f >= Float.parseFloat("0.4") && f < Float.parseFloat("0.6"))
+        if (f >= 0.4f && f < 0.6f)
             return "***";
-        if (f >= Float.parseFloat("0.6") && f < Float.parseFloat("0.8"))
+        if (f >= 0.6f && f < 0.8f)
             return "****";
-        if (f >= Float.parseFloat("0.8") && f <= Float.parseFloat("1.0"))
+        if (f >= 0.8f && f <= 1.0f)
             return "*****";
         //出错就显示6个零
         return "000000";
@@ -116,12 +114,5 @@ public class Test {
             testWindows.getOption()[i].setVisible(false);
         }
         testWindows.invalidate();
-    }
-
-    public void reset() {
-        testWindows.getTextArea_question().setText("");
-        for (int i = 0; i < testWindows.getOption().length; i++) {
-            testWindows.getOption()[i].setVisible(true);
-        }
     }
 }
