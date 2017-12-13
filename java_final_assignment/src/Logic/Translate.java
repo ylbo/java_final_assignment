@@ -9,6 +9,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,14 +27,13 @@ public class Translate {
         this.translateWindows.getButton_find_word().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                translateWindows.getTextArea_meaning().setText("");
-                String s[] = sent_string_to_you_dao(translateWindows.getTextArea_find().getText());
-                translateWindows.getTextArea_meaning().append(s[s.length - 1] + "\r\n");
+                JSONObject jo = new JSONObject(sent_string_to_you_dao(translateWindows.getTextArea_find().getText()));
+                translateWindows.getTextArea_meaning().setText(jo.getJSONArray("translation").getString(0));
             }
         });
     }
 
-    public static String[] sent_string_to_you_dao(String string) {
+    public static String sent_string_to_you_dao(String string) {
         String appKey = "7d0987ec4a1738bf";
         String query = string;
         //在开发的过程中，如果对于少量参数的前后台传递
@@ -48,14 +48,13 @@ public class Translate {
         params.put("sign", sign);
         params.put("salt", salt);
         params.put("appKey", appKey);
-        String[] str = null;
+        String str = null;
         try {
-            str = requestForHttp("http://openapi.youdao.com/api", params).split("]");
-        } catch (Exception e) {
-
+            str = requestForHttp("http://openapi.youdao.com/api", params);
+        } catch (Exception ss) {
+            ss.printStackTrace();
         }
-        String[] s = str[0].split("\",\"");
-        return s;
+        return str;
     }
 
     public static String requestForHttp(String url, Map<String, String> requestParams) throws Exception {
