@@ -3,9 +3,9 @@ package Windows;
 import java.awt.*;
 
 public class ChooseWindows extends MyFrame {
-    private Button button_search_module;
-    private Button button_test_module;
-    private Button button_translate_module;
+    private Button searchModuleButton;
+    private Button testModuleButton;
+    private Button translateModuleButton;
 
     public ChooseWindows() {
         super();
@@ -13,33 +13,33 @@ public class ChooseWindows extends MyFrame {
     }
 
     private void init() {
-        button_search_module = new Button("查找单词");
-        button_search_module.setBounds(120, 100, 80, 60);
-        button_search_module.setBackground(Color.YELLOW);
+        searchModuleButton = new Button("查找单词");
+        searchModuleButton.setBounds(120, 100, 80, 60);
+        searchModuleButton.setBackground(Color.YELLOW);
 
-        button_test_module = new Button("测验模式");
-        button_test_module.setBounds(240, 100, 80, 60);
-        button_test_module.setBackground(Color.CYAN);
+        testModuleButton = new Button("测验模式");
+        testModuleButton.setBounds(240, 100, 80, 60);
+        testModuleButton.setBackground(Color.CYAN);
 
-        button_translate_module = new Button("联网翻译");
-        button_translate_module.setBounds(180, 170, 80, 60);
-        button_translate_module.setBackground(Color.WHITE);
+        translateModuleButton = new Button("联网翻译");
+        translateModuleButton.setBounds(180, 170, 80, 60);
+        translateModuleButton.setBackground(Color.WHITE);
 
-        this.add(button_translate_module);
-        this.add(button_search_module);
-        this.add(button_test_module);
+        this.add(translateModuleButton);
+        this.add(searchModuleButton);
+        this.add(testModuleButton);
     }
 
-    public Button getButton_search_module() {
-        return button_search_module;
+    public Button getSearchModuleButton() {
+        return searchModuleButton;
     }
 
-    public Button getButton_test_module() {
-        return button_test_module;
+    public Button getTestModuleButton() {
+        return testModuleButton;
     }
 
-    public Button getButton_translate_module() {
-        return button_translate_module;
+    public Button getTranslateModuleButton() {
+        return translateModuleButton;
     }
 
 }

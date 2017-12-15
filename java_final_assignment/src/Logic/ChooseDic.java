@@ -14,22 +14,28 @@ public class ChooseDic {
     private ChooseDicWindows chooseDicWindows;
     private TestWindows testWindows;
     private Test test;
-    private ActionListener get4_to_test = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            to_test("ylbQuestionBankGet4");
-        }
-    };
-    private ActionListener get6_to_test = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            to_test("ylbQuestionBankGet6");
-        }
-    };
 
-    private void to_test(String table_name) {
+    public ChooseDic(ChooseDicWindows chooseDicWindows, TestWindows testWindows, Test test) {
+        this.chooseDicWindows = chooseDicWindows;
+        this.testWindows = testWindows;
+        this.test = test;
+        this.chooseDicWindows.getGET4TestButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toTestWindows("ylbQuestionBankGet4");
+            }
+        });
+        this.chooseDicWindows.getGET6TestButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toTestWindows("ylbQuestionBankGet6");
+            }
+        });
+    }
+
+    private void toTestWindows(String tableName) {
         try {
-            import_question_bank(table_name);
+            importQuestionBank(tableName);
         } catch (SQLException ss) {
             ss.printStackTrace();
         }
@@ -38,16 +44,8 @@ public class ChooseDic {
         test.test();
     }
 
-    public ChooseDic(ChooseDicWindows chooseDicWindows, TestWindows testWindows, Test test) {
-        this.chooseDicWindows = chooseDicWindows;
-        this.testWindows = testWindows;
-        this.test = test;
-        this.chooseDicWindows.getGet4().addActionListener(get4_to_test);
-        this.chooseDicWindows.getGet6().addActionListener(get6_to_test);
-    }
-
-    private void import_question_bank(String table_name) throws SQLException {
-        ResultSet rs = SqlHelper.read_questin(table_name);
+    private void importQuestionBank(String tableName) throws SQLException {
+        ResultSet rs = SqlHelper.inportQuestion(tableName);
         while (rs.next()) {
             ArrayList<String> arr = new ArrayList<String>();
             arr.add(rs.getString("question"));

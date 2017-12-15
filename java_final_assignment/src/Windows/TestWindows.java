@@ -3,22 +3,12 @@ package Windows;
 import java.awt.*;
 
 public class TestWindows extends MyFrame {
-    private TextArea textArea_question;
-    private Button[] option = new Button[4];
-    private Button button_quit_module;
-    private Button button_show_words_difficulty;
-    private Dialog result_dialog;
-    private Label result_label_dialog;
-    private Label label_dialog_right_option_1;
-    private Label label_dialog_right_option_2;
-
-    public Label getLabel_dialog_right_option_1() {
-        return label_dialog_right_option_1;
-    }
-
-    public Label getLabel_dialog_right_option_2() {
-        return label_dialog_right_option_2;
-    }
+    private TextArea questionArea;
+    private Button[] options = new Button[4];
+    private Button exitButton;
+    private Button showWordsDifficultyButton;
+    private Dialog showResultDialog;
+    private Label[] showResultLableOfDialog = new Label[3];
 
     public TestWindows() {
         super();
@@ -27,64 +17,58 @@ public class TestWindows extends MyFrame {
 
     private void init() {
 
-        textArea_question = new TextArea("", 0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
-        textArea_question.setBounds(15, 40, 420, 170);
+        questionArea = new TextArea("", 0, 0, TextArea.SCROLLBARS_VERTICAL_ONLY);
+        questionArea.setBounds(15, 40, 420, 170);
 
         for (int i = 0; i < 4; i++) {
-            option[i] = new Button("  " + Integer.toString(i + 1) + "  ");
-            option[i].setBounds(10 + i * 80, 230, 80, 20);
-            this.add(option[i]);
+            options[i] = new Button("  " + Integer.toString(i + 1) + "  ");
+            options[i].setBounds(10 + i * 80, 230, 80, 20);
+            this.add(options[i]);
         }
 
-        button_show_words_difficulty = new Button("展示单词难度");
-        button_show_words_difficulty.setBounds(250, 230, 80, 20);
-        button_show_words_difficulty.setVisible(false);
-        button_quit_module = new Button("退出考试");
-        button_quit_module.setBounds(330, 230, 80, 20);
+        showWordsDifficultyButton = new Button("展示单词难度");
+        showWordsDifficultyButton.setBounds(250, 230, 80, 20);
+        showWordsDifficultyButton.setVisible(false);
+        exitButton = new Button("退出考试");
+        exitButton.setBounds(330, 230, 80, 20);
 
-        result_dialog = new Dialog(this, "杨良博", Dialog.ModalityType.APPLICATION_MODAL);
-        result_dialog.setLayout(null);
-        result_dialog.setBounds(729, 360, 240, 148);
-        label_dialog_right_option_1 = new Label("", Label.CENTER);
-        label_dialog_right_option_1.setBounds(0, 60, 240, 20);
-        label_dialog_right_option_2 = new Label("", Label.CENTER);
-        label_dialog_right_option_2.setBounds(0, 80, 240, 20);
+        showResultDialog = new Dialog(this, "杨良博", Dialog.ModalityType.APPLICATION_MODAL);
+        showResultDialog.setLayout(null);
+        showResultDialog.setBounds(729, 360, 240, 148);
+        for (int i = 0; i < 3; i++) {
+            showResultLableOfDialog[i] = new Label("", Label.CENTER);
+            showResultLableOfDialog[i].setBounds(0, 40 + i * 20, 240, 20);
+            showResultDialog.add(showResultLableOfDialog[i]);
+        }
 
-        result_label_dialog = new Label("", Label.CENTER);
-        result_label_dialog.setBounds(0, 40, 240, 20);
-
-        result_dialog.add(result_label_dialog);
-        result_dialog.add(label_dialog_right_option_1);
-        result_dialog.add(label_dialog_right_option_2);
-
-        this.add(textArea_question);
-        this.add(button_show_words_difficulty);
-        this.add(button_quit_module);
+        this.add(questionArea);
+        this.add(showWordsDifficultyButton);
+        this.add(exitButton);
 
     }
 
-    public Button[] getOption() {
-        return option;
+    public Button[] getOptions() {
+        return options;
     }
 
-    public TextArea getTextArea_question() {
-        return textArea_question;
+    public TextArea getQuestionArea() {
+        return questionArea;
     }
 
-    public Button getButton_show_words_difficulty() {
-        return button_show_words_difficulty;
+    public Button getShowWordsDifficultyButton() {
+        return showWordsDifficultyButton;
     }
 
-    public Button getButton_quit_module() {
-        return button_quit_module;
+    public Button getExitButton() {
+        return exitButton;
     }
 
-    public Dialog getResult_dialog() {
-        return result_dialog;
+    public Dialog getShowResultDialog() {
+        return showResultDialog;
     }
 
-    public Label getResult_label_dialog() {
-        return result_label_dialog;
+    public Label[] getShowResultLableOfDialog() {
+        return showResultLableOfDialog;
     }
 
 }

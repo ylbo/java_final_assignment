@@ -2,73 +2,73 @@ package Logic;
 
 import Windows.ChooseWindows;
 import Windows.LoginWindows;
-import Windows.RegisterWindoes;
+import Windows.SignInWindoes;
 
 import java.awt.event.*;
 
 public class Login {
     private LoginWindows loginWindows;
-    private StringBuilder loged_in_user_name;
-    private RegisterWindoes registerWindoes;
+    private StringBuilder logInAccount;
+    private SignInWindoes signInWindoes;
     private ChooseWindows chooseWindows;
-    private MouseListener login_button_visible_password = new MouseAdapter() {
+    private MouseListener visiblePasswordButtonChicked = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
-            loginWindows.getTextField_password().setEchoChar('\0');
+            loginWindows.getPasswordField().setEchoChar('\0');
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
-            loginWindows.getTextField_password().setEchoChar('*');
+            loginWindows.getPasswordField().setEchoChar('*');
         }
     };
-    private WindowListener login_dialog_clicked = new WindowAdapter() {
+    private WindowListener logInDialogChicked = new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
             loginWindows.getDialog().setVisible(false);
-            loginWindows.getLabel_dialog().setText("µÇÂ¼Ê§°Ü");
+            loginWindows.getLabelOfDialog().setText("µÇÂ¼Ê§°Ü");
         }
     };
-    private int login_count = 0;
-    private ActionListener login_button_clicked = new ActionListener() {
+    private int logInCount = 0;
+    private ActionListener logInButtonChicked = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (SqlHelper.check_userInfo(loginWindows.getTextField_user_name().getText(), loginWindows.getTextField_password().getText())) {
+            if (SqlHelper.checkAccountAndPassword(loginWindows.getAccountField().getText(), loginWindows.getPasswordField().getText())) {
                 loginWindows.getDialog().setVisible(true);
                 record();
                 return;
             }
-            loginWindows.getLabel_dialog().setText("µÇÂ¼³É¹¦");
+            loginWindows.getLabelOfDialog().setText("µÇÂ¼³É¹¦");
             loginWindows.getDialog().setVisible(true);
-            loged_in_user_name.append(loginWindows.getTextField_user_name().getText());
-            System.out.println(loged_in_user_name);
+            logInAccount.append(loginWindows.getAccountField().getText());
+            System.out.println(logInAccount);
             chooseWindows.setVisible(true);
             loginWindows.setVisible(false);
         }
     };
-    private ActionListener to_registerWindoes = new ActionListener() {
+    private ActionListener toSignInWindowsChicked = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            registerWindoes.setVisible(true);
+            signInWindoes.setVisible(true);
             loginWindows.setVisible(false);
         }
     };
 
-    public Login(LoginWindows loginWindows, RegisterWindoes registerWindoes, ChooseWindows chooseWindows, StringBuilder loged_in_user_name) {
+    public Login(LoginWindows loginWindows, SignInWindoes signInWindoes, ChooseWindows chooseWindows, StringBuilder logInAccount) {
         this.loginWindows = loginWindows;
-        this.registerWindoes = registerWindoes;
+        this.signInWindoes = signInWindoes;
         this.chooseWindows = chooseWindows;
-        this.loged_in_user_name = loged_in_user_name;
-        loginWindows.getButton_login().addActionListener(login_button_clicked);
-        loginWindows.getButton_register().addActionListener(to_registerWindoes);
-        loginWindows.getDialog().addWindowListener(login_dialog_clicked);
-        loginWindows.getButton_visible_password().addMouseListener(login_button_visible_password);
+        this.logInAccount = logInAccount;
+        loginWindows.getLogInButton().addActionListener(logInButtonChicked);
+        loginWindows.getSignInButton().addActionListener(toSignInWindowsChicked);
+        loginWindows.getDialog().addWindowListener(logInDialogChicked);
+        loginWindows.getVisiblePasswordButton().addMouseListener(visiblePasswordButtonChicked);
     }
 
     private void record() {
-        login_count++;
-        if (login_count == 3) {
-            login_count = 0;
+        logInCount++;
+        if (logInCount == 3) {
+            logInCount = 0;
             System.exit(0);
         }
     }
