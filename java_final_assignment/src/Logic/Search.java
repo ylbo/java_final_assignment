@@ -10,13 +10,13 @@ import java.sql.SQLException;
 
 public class Search {
     private SearchWindows searchWindows;
-    ActionListener search_button = new ActionListener() {
+    ActionListener searchButtonChicked = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             String meaning = null;
-            String word = searchWindows.getTextField_find().getText();
+            String word = searchWindows.getEnterWordField().getText();
             if (word != null) {
-                ResultSet re = SqlHelper.search_word_meaning();
+                ResultSet re = SqlHelper.seachWordMeaning();
                 try {
                     while (re.next()) {
                         if (word.compareTo(re.getString("word")) == 0) {
@@ -29,12 +29,12 @@ public class Search {
                 }
             }
             if (meaning == null)
-                searchWindows.getTextArea_meaning().setText("没有该单词词义");
-            else searchWindows.getTextArea_meaning().setText(meaning);
+                searchWindows.getMeaningArea().setText("没有该单词词义");
+            else searchWindows.getMeaningArea().setText(meaning);
         }
     };
     private ChooseWindows chooseWindows;
-    private ActionListener quit_search_button = new ActionListener() {
+    private ActionListener exitSearchButtonChicked = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
             chooseWindows.setVisible(true);
@@ -45,7 +45,7 @@ public class Search {
     public Search(SearchWindows searchWindows, ChooseWindows chooseWindows) {
         this.searchWindows = searchWindows;
         this.chooseWindows = chooseWindows;
-        this.searchWindows.getButton_find_word().addActionListener(search_button);
-        this.searchWindows.getButton_quit_module().addActionListener(quit_search_button);
+        this.searchWindows.getSearchWordButton().addActionListener(searchButtonChicked);
+        this.searchWindows.getExitButton().addActionListener(exitSearchButtonChicked);
     }
 }

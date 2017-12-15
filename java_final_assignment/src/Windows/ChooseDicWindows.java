@@ -3,8 +3,8 @@ package Windows;
 import java.awt.*;
 
 public class ChooseDicWindows extends MyFrame {
-    private Button Get4;
-    private Button Get6;
+    private Button GET4TestButton;
+    private Button GET6TestButton;
 
     public ChooseDicWindows() {
         super();
@@ -12,21 +12,21 @@ public class ChooseDicWindows extends MyFrame {
     }
 
     private void init() {
-        Get4 = new Button("”¢”ÔÀƒº∂≤‚ ‘");
-        Get6 = new Button("”¢”Ô¡˘º∂≤‚ ‘");
+        GET4TestButton = new Button("”¢”ÔÀƒº∂≤‚ ‘");
+        GET6TestButton = new Button("”¢”Ô¡˘º∂≤‚ ‘");
 
-        Get4.setBounds(120, 100, 80, 60);
-        Get6.setBounds(240, 100, 80, 60);
+        GET4TestButton.setBounds(120, 100, 80, 60);
+        GET6TestButton.setBounds(240, 100, 80, 60);
 
-        this.add(Get4);
-        this.add(Get6);
+        this.add(GET4TestButton);
+        this.add(GET6TestButton);
     }
 
-    public Button getGet4() {
-        return Get4;
+    public Button getGET4TestButton() {
+        return GET4TestButton;
     }
 
-    public Button getGet6() {
-        return Get6;
+    public Button getGET6TestButton() {
+        return GET6TestButton;
     }
 }

@@ -33,13 +33,13 @@ public class SqlHelper {
     }
 
     // 查询单个单词意思
-    public static ResultSet search_word_meaning() {
+    public static ResultSet seachWordMeaning() {
         String SQL = "select * from ylbWord";
         return SqlHelper.executeQuery(SQL);
     }
 
     //写入成绩
-    public static void write_grade(String name, String word, int right, int wrong) {
+    public static void writeGrade(String name, String word, int right, int wrong) {
         PreparedStatement pstmt = null;
         try {
             String SQL = "insert into ylbGrade(userName,word,[right],wrong) values(?,?,?,?)";
@@ -52,7 +52,7 @@ public class SqlHelper {
             System.out.println("插入成绩成功");
         } catch (Exception e) {
             e.printStackTrace();
-            change_grade(name, word, right, wrong);
+            changeGrade(name, word, right, wrong);
             System.out.println("----------------插入成绩失败");
         } finally {
             try {
@@ -65,7 +65,7 @@ public class SqlHelper {
     }
 
     //修改成绩
-    public static void change_grade(String name, String word, int right, int wrong) {
+    public static void changeGrade(String name, String word, int right, int wrong) {
         try {
             String SQL = "update ylbGrade set [right] = [right] + ?,wrong = wrong + ? where userName = ? and word = ?";
             PreparedStatement pstmt = getCoonection().prepareStatement(SQL);
@@ -82,7 +82,7 @@ public class SqlHelper {
     }
 
     //存入新的帐号密码
-    public static void write_userInfo(String user, String password) {
+    public static void writeAccountAndPassword(String user, String password) {
         try {
             String SQL = "insert into ylbUserInfo(userName,password) values(?,?)";
             PreparedStatement pstmt = getCoonection().prepareStatement(SQL);
@@ -97,7 +97,7 @@ public class SqlHelper {
     }
 
     //读取帐号密码
-    public static boolean check_userInfo(String user, String passWord) {
+    public static boolean checkAccountAndPassword(String user, String passWord) {
         try {
             String SQL = "select userName,passWord from ylbUserInfo where userName= ? and passWord= ? ";
             PreparedStatement pstmt = getCoonection().prepareStatement(SQL);
@@ -113,7 +113,7 @@ public class SqlHelper {
         return true;
     }
 
-    public static boolean check_Info(String user) {
+    public static boolean checkAccount(String user) {
         try {
             String SQL = "select userName,passWord from ylbUserInfo where userName= ? ";
             PreparedStatement pstmt = getCoonection().prepareStatement(SQL);
@@ -128,7 +128,7 @@ public class SqlHelper {
     }
 
     // question
-    public static ResultSet read_questin(String table_name) {
+    public static ResultSet inportQuestion(String table_name) {
         try {
             String SQL = "select * from " + table_name;
             PreparedStatement pstmt = SqlHelper.getCoonection().prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
@@ -140,7 +140,7 @@ public class SqlHelper {
         return null;
     }
 
-    public static ResultSet read_gread() {
+    public static ResultSet readGread() {
         String SQL = "select g.word,1.0*sum(wrong)/( sum([right])+sum(wrong)) r from ylbGrade  g join ylbWord w on g.word=w.word group by g.word";
         return SqlHelper.executeQuery(SQL);
     }

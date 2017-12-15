@@ -12,41 +12,41 @@ import java.net.URL;
 
 public class MyFrame extends Frame {
 
-    private Dialog dialog_exit;
-    private Label label_exit;
-    private Button button_yes;
-    private Button button_no;
+    private Dialog exitDialog;
+    private Label exitLabel;
+    private Button yesButton;
+    private Button noButton;
 
 
     public MyFrame() {
         super("杨良博");
-        dialog_exit = new Dialog(this, "确认退出", Dialog.ModalityType.APPLICATION_MODAL);
-        dialog_exit.setBounds(729, 360, 240, 148);
-        label_exit = new Label("你确定要退出么");
-        button_yes = new Button("是");
-        button_no = new Button("否");
-        dialog_exit.setLayout(new FlowLayout());
-        dialog_exit.add(label_exit);
-        dialog_exit.add(button_yes);
-        dialog_exit.add(button_no);
+        exitDialog = new Dialog(this, "确认退出", Dialog.ModalityType.APPLICATION_MODAL);
+        exitDialog.setBounds(729, 360, 240, 148);
+        exitLabel = new Label("你确定要退出么");
+        yesButton = new Button("是");
+        noButton = new Button("否");
+        exitDialog.setLayout(new FlowLayout());
+        exitDialog.add(exitLabel);
+        exitDialog.add(yesButton);
+        exitDialog.add(noButton);
 
-        button_yes.addActionListener(new ActionListener() {
+        yesButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.exit(0);
             }
         });
 
-        button_no.addActionListener(new ActionListener() {
+        noButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dialog_exit.setVisible(false);
+                exitDialog.setVisible(false);
             }
         });
-        dialog_exit.addWindowListener(new WindowAdapter() {
+        exitDialog.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dialog_exit.setVisible(false);
+                exitDialog.setVisible(false);
             }
         });
 
@@ -56,7 +56,7 @@ public class MyFrame extends Frame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dialog_exit.setVisible(true);
+                exitDialog.setVisible(true);
             }
         });
 
