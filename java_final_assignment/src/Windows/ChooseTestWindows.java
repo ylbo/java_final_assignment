@@ -2,11 +2,13 @@ package Windows;
 
 import java.awt.*;
 
-public class ChooseDicWindows extends MyFrame {
+public class ChooseTestWindows extends MyFrame {
     private Button GET4TestButton;
     private Button GET6TestButton;
 
-    public ChooseDicWindows() {
+    private TestWindows testWindows;
+
+    public ChooseTestWindows() {
         super();
         init();
     }
@@ -28,5 +30,13 @@ public class ChooseDicWindows extends MyFrame {
 
     public Button getGET6TestButton() {
         return GET6TestButton;
+    }
+
+    public TestWindows getTestWindows() {
+        return testWindows;
+    }
+
+    public void setTestWindows(TestWindows testWindows) {
+        this.testWindows = testWindows;
     }
 }

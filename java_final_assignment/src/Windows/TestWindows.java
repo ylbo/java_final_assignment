@@ -1,6 +1,11 @@
 package Windows;
 
+import Logic.Test;
+import Sql.TestData;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class TestWindows extends MyFrame {
     private TextArea questionArea;
@@ -9,10 +14,28 @@ public class TestWindows extends MyFrame {
     private Button showWordsDifficultyButton;
     private Dialog showResultDialog;
     private Label[] showResultLableOfDialog = new Label[3];
+    private ChooseWindows chooseWindows;
+    private Test test;
+
+    public Test getTest() {
+        return test;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
 
     public TestWindows() {
         super();
         init();
+    }
+
+    @Override
+    public void setVisible(boolean b) {
+        super.setVisible(b);
+        if (b == true) {
+            this.getTest().test();
+        }
     }
 
     private void init() {
@@ -40,11 +63,30 @@ public class TestWindows extends MyFrame {
             showResultLableOfDialog[i].setBounds(0, 40 + i * 20, 240, 20);
             showResultDialog.add(showResultLableOfDialog[i]);
         }
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exit();
+            }
+        });
 
         this.add(questionArea);
         this.add(showWordsDifficultyButton);
         this.add(exitButton);
 
+    }
+
+    private void exit() {
+        TestData.question.clear();
+        reset();
+        this.getChooseWindows().setVisible(true);
+        this.setVisible(false);
+    }
+
+    private void reset() {
+        for (int i = 0; i < this.getOptions().length; i++) {
+            this.getOptions()[i].setVisible(true);
+        }
     }
 
     public Button[] getOptions() {
@@ -59,16 +101,20 @@ public class TestWindows extends MyFrame {
         return showWordsDifficultyButton;
     }
 
-    public Button getExitButton() {
-        return exitButton;
-    }
-
     public Dialog getShowResultDialog() {
         return showResultDialog;
     }
 
     public Label[] getShowResultLableOfDialog() {
         return showResultLableOfDialog;
+    }
+
+    public ChooseWindows getChooseWindows() {
+        return chooseWindows;
+    }
+
+    public void setChooseWindows(ChooseWindows chooseWindows) {
+        this.chooseWindows = chooseWindows;
     }
 
 }

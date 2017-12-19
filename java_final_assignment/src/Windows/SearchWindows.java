@@ -1,6 +1,8 @@
 package Windows;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class SearchWindows extends MyFrame {
     private Label searchLabel;
@@ -8,6 +10,16 @@ public class SearchWindows extends MyFrame {
     private Button searchWordButton;
     private TextArea meaningArea;
     private Button exitButton;
+
+    private ChooseWindows chooseWindows;
+
+    public ChooseWindows getChooseWindows() {
+        return chooseWindows;
+    }
+
+    public void setChooseWindows(ChooseWindows chooseWindows) {
+        this.chooseWindows = chooseWindows;
+    }
 
     public SearchWindows()
     {
@@ -30,7 +42,12 @@ public class SearchWindows extends MyFrame {
         searchWordButton.setBounds(340, 35, 80, 20);
         exitButton = new Button("ÍË³ö²éÑ¯");
         exitButton.setBounds(340, 230, 80, 20);
-
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exit();
+            }
+        });
         this.add(searchLabel);
         this.add(enterWordField);
         this.add(searchWordButton);
@@ -38,6 +55,10 @@ public class SearchWindows extends MyFrame {
         this.add(exitButton);
     }
 
+    private void exit() {
+        this.getChooseWindows().setVisible(true);
+        this.setVisible(false);
+    }
     public TextField getEnterWordField() {
         return enterWordField;
     }
@@ -48,9 +69,5 @@ public class SearchWindows extends MyFrame {
 
     public TextArea getMeaningArea() {
         return meaningArea;
-    }
-
-    public Button getExitButton() {
-        return exitButton;
     }
 }

@@ -2,80 +2,43 @@ package Logic;
 
 import Windows.*;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 public class Run {
-    private StringBuilder logInAccount = new StringBuilder();
-    private LoginWindows loginWindows;
-    private SignInWindoes signInWindoes;
-    private ChooseWindows chooseWindows;
-    private SearchWindows searchWindows;
-    private TestWindows testWindows;
-    private ChooseDicWindows chooseDicWindows;
-    private TranslateWindows translateWindows;
-    private Test test;
+
 
     private Run() {
-        loginWindows = new LoginWindows();
-        signInWindoes = new SignInWindoes();
-        chooseWindows = new ChooseWindows();
-        searchWindows = new SearchWindows();
-        testWindows = new TestWindows();
-        translateWindows = new TranslateWindows();
-        chooseDicWindows = new ChooseDicWindows();
+        // create windows
+        LoginWindows loginWindows = new LoginWindows();
+        SignInWindoes signInWindoes = new SignInWindoes();
+        ChooseWindows chooseWindows = new ChooseWindows();
+        SearchWindows searchWindows = new SearchWindows();
+        TestWindows testWindows = new TestWindows();
+        TranslateWindows translateWindows = new TranslateWindows();
+        ChooseTestWindows chooseTestWindows = new ChooseTestWindows();
 
-        chooseWindows.getSearchModuleButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                searchWindows.setVisible(true);
-                chooseWindows.setVisible(false);
-            }
-        });
-        chooseWindows.getTestModuleButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                chooseDicWindows.setVisible(true);
-                chooseWindows.setVisible(false);
-            }
-        });
-        chooseWindows.getTranslateModuleButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                translateWindows.setVisible(true);
-                chooseWindows.setVisible(false);
-            }
-        });
-        testWindows.getExitButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                chooseWindows.setVisible(true);
-                testWindows.setVisible(false);
-                testWindows.getShowWordsDifficultyButton().setVisible(false);
-                test.question.clear();
-                reset();
-            }
-        });
-        translateWindows.getExitButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                chooseWindows.setVisible(true);
-                translateWindows.setVisible(false);
-            }
-        });
-        new Translate(translateWindows);
-        new SignIn(signInWindoes, loginWindows);
-        new Search(searchWindows, chooseWindows);
-        test = new Test(testWindows, logInAccount);
-        new ChooseDic(chooseDicWindows, testWindows, test);
-        new Login(loginWindows, signInWindoes, chooseWindows, logInAccount);
-    }
+        // create logic
+        Login login = new Login(loginWindows);
+        SignIn signIn = new SignIn(signInWindoes);
+        Search search = new Search(searchWindows);
+        Test test = new Test(testWindows);
+        Translate translate = new Translate(translateWindows);
+        ChooseTest chooseTest = new ChooseTest(chooseTestWindows);
 
-    private void reset() {
-        testWindows.getQuestionArea().setText("");
-        for (int i = 0; i < testWindows.getOptions().length; i++) {
-            testWindows.getOptions()[i].setVisible(true);
-        }
+        // connect
+        login.setSignInWindoes(signInWindoes);
+        login.setChooseWindows(chooseWindows);
+
+        signIn.setLoginWindows(loginWindows);
+
+        searchWindows.setChooseWindows(chooseWindows);
+        translateWindows.setChooseWindows(chooseWindows);
+        testWindows.setChooseWindows(chooseWindows);
+        chooseWindows.setTranslateWindows(translateWindows);
+        chooseWindows.setSearchWindows(searchWindows);
+        chooseWindows.setChooseTestWindows(chooseTestWindows);
+
+        chooseTest.setTestWindows(testWindows);
+
+        testWindows.setTest(test);
     }
 
     public static void main(String[] args) {

@@ -12,8 +12,6 @@ public class LoginWindows extends MyFrame {
     private Button visiblePasswordButton;
     private Dialog dialog;
     private Label labelOfDialog;
-
-
     public LoginWindows() {
         super();
         init();
