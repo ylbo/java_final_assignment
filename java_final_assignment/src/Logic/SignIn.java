@@ -1,5 +1,6 @@
 package Logic;
 
+import Sql.SqlHelper;
 import Windows.LoginWindows;
 import Windows.SignInWindoes;
 
@@ -7,6 +8,33 @@ import java.awt.event.*;
 
 public class SignIn {
     private SignInWindoes signInWindoes;
+
+    private ActionListener clickedSignInButton = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (checkInfo()) {
+                signInWindoes.getLabelOfDialog().setText("×¢²á³É¹¦");
+                signInWindoes.getDialog().setVisible(true);
+                SqlHelper.writeAccountAndPassword(signInWindoes.getAccountField().getText(), signInWindoes.getEnterPasswordField().getText());
+                loginWindows.setVisible(true);
+                cleanSignIn();
+                signInWindoes.getDialog().setVisible(false);
+                signInWindoes.setVisible(false);
+            } else {
+                signInWindoes.getDialog().setVisible(true);
+
+            }
+        }
+    };
+
+    public SignIn(SignInWindoes signInWindoes) {
+        this.signInWindoes = signInWindoes;
+        signInWindoes.getVisiblePasswordButton().addMouseListener(clickedVisiblePasswoedButton);
+        signInWindoes.getDialog().addWindowListener(clickedDialogButton);
+        signInWindoes.getSignInButton().addActionListener(clickedSignInButton);
+        signInWindoes.getExitButton().addActionListener(clickedExitSignInButton);
+    }
+
     private LoginWindows loginWindows;
 
     private WindowListener clickedDialogButton = new WindowAdapter() {
@@ -29,24 +57,10 @@ public class SignIn {
             signInWindoes.getConfirmPasswordField().setEchoChar('*');
         }
     };
-    private ActionListener clickedSignInButton = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (checkInfo()) {
-                signInWindoes.getLabelOfDialog().setText("×¢²á³É¹¦");
-                signInWindoes.getDialog().setVisible(true);
-                SqlHelper.writeAccountAndPassword(signInWindoes.getAccountField().getText(), signInWindoes.getEnterPasswordField().getText());
-                loginWindows.setVisible(true);
-                cleanSignIn();
-                System.out.println("×¢²á³É¹¦");
-                signInWindoes.getDialog().setVisible(false);
-                signInWindoes.setVisible(false);
-            } else {
-                signInWindoes.getDialog().setVisible(true);
-                System.out.println("×¢²áÊ§°Ü");
-            }
-        }
-    };
+
+    public LoginWindows getLoginWindows() {
+        return loginWindows;
+    }
 
     private ActionListener clickedExitSignInButton = new ActionListener() {
         @Override
@@ -57,13 +71,8 @@ public class SignIn {
         }
     };
 
-    public SignIn(SignInWindoes signInWindoes, LoginWindows loginWindows) {
-        this.signInWindoes = signInWindoes;
+    public void setLoginWindows(LoginWindows loginWindows) {
         this.loginWindows = loginWindows;
-        signInWindoes.getVisiblePasswordButton().addMouseListener(clickedVisiblePasswoedButton);
-        signInWindoes.getDialog().addWindowListener(clickedDialogButton);
-        signInWindoes.getSignInButton().addActionListener(clickedSignInButton);
-        signInWindoes.getExitButton().addActionListener(clickedExitSignInButton);
     }
 
     private boolean checkInfo() {

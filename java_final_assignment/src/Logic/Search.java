@@ -1,6 +1,6 @@
 package Logic;
 
-import Windows.ChooseWindows;
+import Sql.SqlHelper;
 import Windows.SearchWindows;
 
 import java.awt.event.ActionEvent;
@@ -33,19 +33,9 @@ public class Search {
             else searchWindows.getMeaningArea().setText(meaning);
         }
     };
-    private ChooseWindows chooseWindows;
-    private ActionListener exitSearchButtonChicked = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            chooseWindows.setVisible(true);
-            searchWindows.setVisible(false);
-        }
-    };
 
-    public Search(SearchWindows searchWindows, ChooseWindows chooseWindows) {
+    public Search(SearchWindows searchWindows) {
         this.searchWindows = searchWindows;
-        this.chooseWindows = chooseWindows;
         this.searchWindows.getSearchWordButton().addActionListener(searchButtonChicked);
-        this.searchWindows.getExitButton().addActionListener(exitSearchButtonChicked);
     }
 }

@@ -1,5 +1,7 @@
 package Logic;
 
+import Sql.SqlHelper;
+import Sql.TestData;
 import Windows.TestWindows;
 
 import java.awt.event.*;
@@ -9,8 +11,7 @@ import java.util.ArrayList;
 
 public class Test {
     private TestWindows testWindows;
-    public ArrayList<ArrayList<String>> question = new ArrayList<ArrayList<String>>();
-    private StringBuilder logInAccount;
+
     private WindowListener closeShowResultDialog = new WindowAdapter() {
         @Override
         public void windowClosing(WindowEvent e) {
@@ -20,7 +21,7 @@ public class Test {
     private ActionListener clickedShowWordDifficulty = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (question.size() == 0) {
+            if (TestData.question.size() == 0) {
                 testWindows.getQuestionArea().setText("单词难度展示 星星越多难度越高\n\r");
                 try {
                     ResultSet set = SqlHelper.readGread();
@@ -36,10 +37,8 @@ public class Test {
     };
     private String right_option;
 
-    public Test(TestWindows testWindows, StringBuilder logInAccount) {
+    public Test(TestWindows testWindows) {
         this.testWindows = testWindows;
-        this.logInAccount = logInAccount;
-        System.out.println(this.logInAccount);
         for (int i = 0; i < testWindows.getOptions().length; i++) {
             int finalI = i;
             testWindows.getOptions()[i].addActionListener(new ActionListener() {
@@ -74,23 +73,23 @@ public class Test {
             testWindows.getShowResultLableOfDialog()[0].setText("");
             testWindows.getShowResultLableOfDialog()[1].setText("回答正确");
             testWindows.getShowResultLableOfDialog()[2].setText("");
-            SqlHelper.writeGrade(new String(logInAccount), question.get(question.size() - 1).get(0), 1, 0);
+            SqlHelper.writeGrade(SqlHelper.account, TestData.question.get(TestData.question.size() - 1).get(0), 1, 0);
             testWindows.getShowResultDialog().setVisible(true);
         } else {
             testWindows.getShowResultLableOfDialog()[0].setText("回答错误,你的选择是" + user_option);
             testWindows.getShowResultLableOfDialog()[1].setText("正确答案是:  " + right_option);
-            testWindows.getShowResultLableOfDialog()[2].setText(question.get(question.size() - 1).get(Integer.parseInt(right_option)));
-            SqlHelper.writeGrade(new String(logInAccount), question.get(question.size() - 1).get(0), 0, 1);
+            testWindows.getShowResultLableOfDialog()[2].setText(TestData.question.get(TestData.question.size() - 1).get(Integer.parseInt(right_option)));
+            SqlHelper.writeGrade(SqlHelper.account, TestData.question.get(TestData.question.size() - 1).get(0), 0, 1);
             testWindows.getShowResultDialog().setVisible(true);
-            question.add(0, question.get(question.size() - 1));
+            TestData.question.add(0, TestData.question.get(TestData.question.size() - 1));
         }
-        question.remove(question.size() - 1);
+        TestData.question.remove(TestData.question.size() - 1);
     }
 
     public void test() {
         testWindows.getQuestionArea().setText("");
         try {
-            appendQuestionAndOptions(question.size() - 1, question);
+            appendQuestionAndOptions(TestData.question.size() - 1, TestData.question);
         } catch (IndexOutOfBoundsException e) {
             e.printStackTrace();
             finishTest();
@@ -107,7 +106,7 @@ public class Test {
 
     private void finishTest() {
         testWindows.getQuestionArea().setText("考试结束");
-        this.question.clear();
+        TestData.question.clear();
         testWindows.getShowWordsDifficultyButton().setVisible(true);
         for (int i = 0; i < testWindows.getOptions().length; i++) {
             testWindows.getOptions()[i].setVisible(false);

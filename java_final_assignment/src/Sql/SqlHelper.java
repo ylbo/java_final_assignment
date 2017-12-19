@@ -1,4 +1,4 @@
-package Logic;
+package Sql;
 
 import java.sql.*;
 
@@ -7,6 +7,7 @@ public class SqlHelper {
     private static final String dbURL = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ylb";
     private static final String userName = "sa";
     private static final String userPwd = "123456";
+    public static String account;
 
     public static Connection getCoonection() {
         try {
@@ -125,19 +126,6 @@ public class SqlHelper {
             System.out.println("----------------更新失败");
         }
         return false;
-    }
-
-    // question
-    public static ResultSet inportQuestion(String table_name) {
-        try {
-            String SQL = "select * from " + table_name;
-            PreparedStatement pstmt = SqlHelper.getCoonection().prepareStatement(SQL, ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            return pstmt.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("----------------更新失败");
-        }
-        return null;
     }
 
     public static ResultSet readGread() {

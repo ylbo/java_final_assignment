@@ -1,5 +1,6 @@
 package Logic;
 
+import Sql.SqlHelper;
 import Windows.ChooseWindows;
 import Windows.LoginWindows;
 import Windows.SignInWindoes;
@@ -8,9 +9,9 @@ import java.awt.event.*;
 
 public class Login {
     private LoginWindows loginWindows;
-    private StringBuilder logInAccount;
     private SignInWindoes signInWindoes;
     private ChooseWindows chooseWindows;
+
     private MouseListener visiblePasswordButtonChicked = new MouseAdapter() {
         @Override
         public void mousePressed(MouseEvent e) {
@@ -40,8 +41,8 @@ public class Login {
             }
             loginWindows.getLabelOfDialog().setText("µÇÂ¼³É¹¦");
             loginWindows.getDialog().setVisible(true);
-            logInAccount.append(loginWindows.getAccountField().getText());
-            System.out.println(logInAccount);
+            SqlHelper.account = loginWindows.getAccountField().getText();
+            System.out.println(SqlHelper.account);
             chooseWindows.setVisible(true);
             loginWindows.setVisible(false);
         }
@@ -54,11 +55,8 @@ public class Login {
         }
     };
 
-    public Login(LoginWindows loginWindows, SignInWindoes signInWindoes, ChooseWindows chooseWindows, StringBuilder logInAccount) {
+    public Login(LoginWindows loginWindows) {
         this.loginWindows = loginWindows;
-        this.signInWindoes = signInWindoes;
-        this.chooseWindows = chooseWindows;
-        this.logInAccount = logInAccount;
         loginWindows.getLogInButton().addActionListener(logInButtonChicked);
         loginWindows.getSignInButton().addActionListener(toSignInWindowsChicked);
         loginWindows.getDialog().addWindowListener(logInDialogChicked);
@@ -71,5 +69,17 @@ public class Login {
             logInCount = 0;
             System.exit(0);
         }
+    }
+
+    public SignInWindoes getSignInWindoes() {
+        return signInWindoes;
+    }
+
+    public void setSignInWindoes(SignInWindoes signInWindoes) {
+        this.signInWindoes = signInWindoes;
+    }
+
+    public void setChooseWindows(ChooseWindows chooseWindows) {
+        this.chooseWindows = chooseWindows;
     }
 }

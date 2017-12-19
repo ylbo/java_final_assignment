@@ -11,6 +11,7 @@ public class TranslateWindows extends MyFrame {
     private TextArea meaningArea;
     private Button exitButton;
     private Button clearButton;
+    private ChooseWindows chooseWindows;
 
     public TranslateWindows() {
         super();
@@ -40,13 +41,23 @@ public class TranslateWindows extends MyFrame {
                 searchArea.setText("");
             }
         });
-
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exit();
+            }
+        });
         this.add(clearButton);
         this.add(searchLabel);
         this.add(searchArea);
         this.add(searchButton);
         this.add(meaningArea);
         this.add(exitButton);
+    }
+
+    private void exit() {
+        this.getChooseWindows().setVisible(true);
+        this.setVisible(false);
     }
 
     public TextArea getSearchArea() {
@@ -61,7 +72,11 @@ public class TranslateWindows extends MyFrame {
         return meaningArea;
     }
 
-    public Button getExitButton() {
-        return exitButton;
+    public ChooseWindows getChooseWindows() {
+        return chooseWindows;
+    }
+
+    public void setChooseWindows(ChooseWindows chooseWindows) {
+        this.chooseWindows = chooseWindows;
     }
 }
