@@ -11,6 +11,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -27,8 +28,21 @@ public class Translate {
         this.translateWindows.getSearchButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JSONObject jo = new JSONObject(sendStringToYoudao(translateWindows.getSearchArea().getText()));
-                translateWindows.getMeaningArea().setText(jo.getJSONArray("translation").getString(0));
+                SwingWorker sw = new SwingWorker() {
+                    JSONObject jo = null;
+
+                    @Override
+                    protected Object doInBackground() throws Exception {
+                        jo = new JSONObject(sendStringToYoudao(translateWindows.getSearchArea().getText()));
+                        return jo;
+                    }
+
+                    @Override
+                    protected void done() {
+                        translateWindows.getMeaningArea().setText(jo.getJSONArray("translation").getString(0));
+                    }
+                };
+                sw.execute();
             }
         });
     }
